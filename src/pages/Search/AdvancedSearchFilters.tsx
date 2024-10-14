@@ -273,21 +273,29 @@ function AdvancedSearchFilters() {
 
         applyFiltersAndNavigate();
     };
+    const [policies] = useOnyx(ONYXKEYS.COLLECTION.POLICY);
+    const [allPoliciesTagsLists] = useOnyx(ONYXKEYS.COLLECTION.POLICY_TAGS);
 
     const filters = typeFiltersKeys[currentType]
         .map((key) => {
             const onPress = singleExecution(waitForNavigate(() => Navigation.navigate(baseFilterConfig[key].route)));
             let filterTitle;
-            if (
+            if (key === CONST.SEARCH.SYNTAX_FILTER_KEYS.CATEGORY) {
+                if( policies && Object.keys(policies).length <=1 ) return undefined; // Hide Categories filter if only personal workspace exists
+                filterTitle = baseFilterConfig[key].getTitle(searchAdvancedFilters, key, translate);
+            }
+
+            else if (key === CONST.SEARCH.SYNTAX_FILTER_KEYS.TAG) {
+                if (allPoliciesTagsLists && !Object.values(allPoliciesTagsLists).some(policy =>  policy?.Tag?.tags?.length > 0)) return undefined;
+                filterTitle = baseFilterConfig[key].getTitle(searchAdvancedFilters, key, translate);
+            } else if (
                 key === CONST.SEARCH.SYNTAX_FILTER_KEYS.DATE ||
                 key === CONST.SEARCH.SYNTAX_FILTER_KEYS.AMOUNT ||
                 key === CONST.SEARCH.SYNTAX_FILTER_KEYS.CURRENCY ||
-                key === CONST.SEARCH.SYNTAX_FILTER_KEYS.CATEGORY ||
                 key === CONST.SEARCH.SYNTAX_FILTER_KEYS.DESCRIPTION ||
                 key === CONST.SEARCH.SYNTAX_FILTER_KEYS.MERCHANT ||
                 key === CONST.SEARCH.SYNTAX_FILTER_KEYS.REPORT_ID ||
-                key === CONST.SEARCH.SYNTAX_FILTER_KEYS.KEYWORD ||
-                key === CONST.SEARCH.SYNTAX_FILTER_KEYS.TAG
+                key === CONST.SEARCH.SYNTAX_FILTER_KEYS.KEYWORD
             ) {
                 filterTitle = baseFilterConfig[key].getTitle(searchAdvancedFilters, key, translate);
             } else if (key === CONST.SEARCH.SYNTAX_FILTER_KEYS.CARD_ID) {
@@ -296,6 +304,7 @@ function AdvancedSearchFilters() {
                 }
                 filterTitle = baseFilterConfig[key].getTitle(searchAdvancedFilters, cardList);
             } else if (key === CONST.SEARCH.SYNTAX_FILTER_KEYS.TAX_RATE) {
+                if(Object.keys(taxRates).length === 0 ) return undefined;
                 filterTitle = baseFilterConfig[key].getTitle(searchAdvancedFilters, taxRates);
             } else if (key === CONST.SEARCH.SYNTAX_FILTER_KEYS.EXPENSE_TYPE) {
                 filterTitle = baseFilterConfig[key].getTitle(searchAdvancedFilters, translate);
