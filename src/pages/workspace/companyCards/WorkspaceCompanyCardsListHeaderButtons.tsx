@@ -74,7 +74,7 @@ function WorkspaceCompanyCardsListHeaderButtons({policyID, selectedFeed, shouldS
                     shouldShowRBR={checkIfFeedConnectionIsBroken(flatAllCardsList(allFeedsCards, workspaceAccountID), selectedFeed)}
                 />
                 <View style={[styles.flexRow, styles.gap2]}>
-                    {!!shouldShowAssignCardButton && (
+                    {true && (
                         <Button
                             success
                             isDisabled={!currentFeedData || !!currentFeedData?.pending || isSelectedFeedConnectionBroken}

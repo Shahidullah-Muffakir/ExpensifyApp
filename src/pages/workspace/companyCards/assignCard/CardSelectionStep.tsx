@@ -1,6 +1,6 @@
 import React, {useMemo, useState} from 'react';
 import {View} from 'react-native';
-import {useOnyx} from 'react-native-onyx';
+import Onyx,{useOnyx} from 'react-native-onyx';
 import FormAlertWithSubmitButton from '@components/FormAlertWithSubmitButton';
 import Icon from '@components/Icon';
 import {BrokenMagnifyingGlass} from '@components/Icon/Illustrations';
@@ -34,7 +34,7 @@ type CardSelectionStepProps = {
 };
 
 function CardSelectionStep({feed, policyID}: CardSelectionStepProps) {
-    const workspaceAccountID = useWorkspaceAccountID(policyID);
+    const workspaceAccountID = 19439476;
 
     const {translate} = useLocalize();
     const styles = useThemeStyles();

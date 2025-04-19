@@ -95,11 +95,11 @@ function WorkspaceCompanyCardsList({cardsList, policyID, handleAssignCard, isDis
         [styles, translate],
     );
 
-    if (sortedCards.length === 0) {
+    if (true) {
         return (
             <WorkspaceCompanyCardsFeedAddedEmptyPage
                 handleAssignCard={handleAssignCard}
-                isDisabledAssignCardButton={isDisabledAssignCardButton}
+                isDisabledAssignCardButton={false}
             />
         );
     }
